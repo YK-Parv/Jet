@@ -538,7 +538,7 @@ padding: 10px 20px;
         <h1 style="font-size: 30px;">Book Your Flight</h1><br><br>
         <form id="booking-form" method="post" >
             <label for="from">From:</label>
-            <select id="from_location" name="from_location">
+            <select id="from_location" name="from_location" onchange="updateToOptions()">
                 <option value="dubai">Dubai International Airport (DXB)</option>
                 <option value="saudi">King Abdulaziz International Airport (JED)</option>
                 <option value="iran">Tehran Imam Khomeini International Airport (IKA)</option>
@@ -764,6 +764,26 @@ padding: 10px 20px;
 
         });
 
+function updateToOptions() {
+    let fromValue = document.getElementById("from_location").value;
+    let toSelect = document.getElementById("to_location");
+    let options = toSelect.options;
+
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === fromValue) {
+            options[i].disabled = true;  // Disable the same location in "To"
+        } else {
+            options[i].disabled = false; // Enable other options
+        }
+    }
+
+    // If "To" is already the same as "From", reset it
+    if (toSelect.value === fromValue) {
+        toSelect.selectedIndex = 0; // Reset selection
+    }
+}
+
+	    
         document.getElementById("booking-form").addEventListener("input", function() {
             let date = document.getElementById("date").value;
             let passengers = document.getElementById("passengers").value;
